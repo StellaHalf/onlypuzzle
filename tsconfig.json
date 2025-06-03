@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "outFile": "docs/main.js"
+  },
+  "files": [
+    "main.ts"
+  ]
+}
