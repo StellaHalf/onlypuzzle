@@ -23,28 +23,18 @@ concurrency:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+      url: ${{ steps.deployment.outputs.url }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: install node v14
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14
-      - name: install typescript
-        run: yarn add typescript
-      - name: tsc
-        uses: icrawl/action-tsc@v1
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # Upload entire repository
-          path: 'docs'
-      - name: Deploy to GitHub Pages
+      - name: Deploy app to GitHub Pages
+        uses: lr0pb/deploy-pages@v1
         id: deployment
-        uses: actions/deploy-pages@v4
+        with:
+          node-version: 14.x
+          build-comand: 'tsc'
